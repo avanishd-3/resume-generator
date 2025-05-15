@@ -1,7 +1,5 @@
 "use client"
 
-"use client"
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -18,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
+// Local imports
+import type { ResumeData } from "./Resume";
 
 // Form field types to be validated (only client-side)
 const formSchema = z.object({
@@ -29,7 +29,11 @@ const formSchema = z.object({
   work_experience: z.string().min(1, { message: "Work experience is required" }),
 });
 
-function Information() {
+function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
+
+  function handleSubmit(values: z.infer<typeof formSchema>) {
+    onSubmit(values);
+  }
 
   // Track expansion state of sections
   const [openSections, setOpenSections] = useState({
@@ -51,12 +55,6 @@ function Information() {
     },
   });
 
-  // Log form values for now
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Submitted values:");
-    console.log(values);
-  }
-
   // Toggle expansion
   function toggleSection(section: keyof typeof openSections) {
     setOpenSections((prev) => ({
@@ -68,7 +66,7 @@ function Information() {
   return (
     <div className="flex items-start justify-start min-h-svh dark:bg-slate-950 bg-slate-100 p-8">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[350px]">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 w-[350px]">
           {/* Personal Details Section */}
           <div>
             <button
