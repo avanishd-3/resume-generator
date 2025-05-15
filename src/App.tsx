@@ -18,12 +18,14 @@ function App() {
 
   // Initialize form data w/ default values
   const [formData, setFormData] = useState<ResumeData>({
-    name: "",
-    phone_number: "",
-    email: "",
-    address: "",
-    education: "",
-    work_experience: "",
+    name: "John Doe",
+    phone_number: "123-456-7809",
+    email: "john_doe@gmail.com",
+    address: "Los Angeles, CA",
+    linkedIn: "https://www.linkedin.com/",
+    gitHub: "https://www.github.com/",
+    education: "We don't need no education",
+    work_experience: "None",
   });
 
   // Handler to recieve data from Information component
@@ -42,7 +44,7 @@ function App() {
       <Resume data={formData}/>
     </PDFViewer>
   </div>
-  )
+  );
 }
 
 export default App;

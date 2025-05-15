@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,11 +19,25 @@ import { useState } from "react";
 import type { ResumeData } from "./Resume";
 
 // Form field types to be validated (only client-side)
+
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   phone_number: z.string().min(1, { message: "Phone number is required" }),
   email: z.string().min(1, { message: "Email is required" }),
   address: z.string().min(1, { message: "Address is required" }),
+  linkedIn: z.string()
+    .min(1, { message: "LinkedIn URL is required" })
+    .refine((val) => 
+      /^(https?:\/\/)?(www\.)?linkedin\.com\/.*$/.test(val ?? ""), // Verify URL is LinkedIn (so no security issues arise)
+      'This is not a valid LinkedIn URL'
+    ),
+  gitHub: z.string()
+          .min(1, { message: "GitHub URL is required" })
+          .refine(
+          (val) =>
+            !val || /^(https?:\/\/)?(www\.)?github\.com\/.*$/.test(val),
+          'This is not a valid GitHub URL'
+        ),
   education: z.string().min(1, { message: "Education is required" }),
   work_experience: z.string().min(1, { message: "Work experience is required" }),
 });
@@ -46,12 +59,14 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      phone_number: "",
-      email: "",
-      address: "",
-      education: "",
-      work_experience: "",
+      name: "John Doe",
+      phone_number: "123-456-7809",
+      email: "john_doe@gmail.com",
+      address: "Los Angeles, CA",
+      linkedIn: "https://www.linkedin.com/",
+      gitHub: "https://www.github.com/",
+      education: "We don't need no education",
+      work_experience: "None",
     },
   });
 
@@ -91,7 +106,6 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
                       <FormControl>
                         <Input placeholder="Name" {...field} />
                       </FormControl>
-                      <FormDescription>This is your full name.</FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -130,6 +144,33 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
                       <FormLabel>Address</FormLabel>
                       <FormControl>
                         <Input placeholder="Address" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="linkedIn"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>LinkedIn</FormLabel>
+                      <FormControl>
+                        <Input placeholder="LinkedIn" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="gitHub"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>GitHub</FormLabel>
+                      <FormControl>
+                        <Input placeholder="GitHub" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
