@@ -38,7 +38,7 @@ function App() {
       <Information onSubmit={handleFormData}/>
     </div>
     {/* Right: Resume Preview */}
-    <PDFViewer className="w-full h-[800px]">
+    <PDFViewer className="w-full h-screen">
       <Resume data={formData}/>
     </PDFViewer>
   </div>
