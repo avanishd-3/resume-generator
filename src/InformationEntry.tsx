@@ -20,7 +20,9 @@ import type { ResumeData } from "./Resume";
 
 // Form field types to be validated (only client-side)
 
+// TODO -> Add support for multiple degrees
 const formSchema = z.object({
+  // Personal details
   name: z.string().min(1, { message: "Name is required" }),
   phone_number: z.string().min(1, { message: "Phone number is required" }),
   email: z.string().min(1, { message: "Email is required" }),
@@ -38,7 +40,13 @@ const formSchema = z.object({
             !val || /^(https?:\/\/)?(www\.)?github\.com\/.*$/.test(val),
           'This is not a valid GitHub URL'
         ),
-  education: z.string().min(1, { message: "Education is required" }),
+  // Education details
+  degree: z.string().min(1, { message: "Education is required" }),
+  institution: z.string().min(1, { message: "Institution is required" }),
+  gradDate: z.string().min(1, { message: "Graduation date is required" }),
+
+
+  // Work experience details
   work_experience: z.string().min(1, { message: "Work experience is required" }),
 });
 
@@ -65,7 +73,9 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
       address: "Los Angeles, CA",
       linkedIn: "https://www.linkedin.com/",
       gitHub: "https://www.github.com/",
-      education: "We don't need no education",
+      degree: "B.S. in Computer Science",
+      institution: "University of California, Los Angeles",
+      gradDate: "June 2023",
       work_experience: "None",
     },
   });
@@ -198,17 +208,47 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
               <div className="py-2">
                 <FormField
                   control={form.control}
-                  name="education"
+                  name="degree"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Education</FormLabel>
+                      <FormLabel>Degree</FormLabel>
                       <FormControl>
-                        <Input placeholder="Education" {...field} />
+                        <Input placeholder="Degree" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
+                <FormField
+                  control={form.control}
+                  name="institution"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Institution</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Institution" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="gradDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Graduation Date</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Graduation Date" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                
               </div>
             </div>
           </div>

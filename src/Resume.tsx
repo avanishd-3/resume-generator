@@ -47,10 +47,16 @@ const resumeStyle = StyleSheet.create({
 
   /* Regular sections */
   section: {
-    marginBottom: 16,
-    padding: 10,
-    backgroundColor: '#fff',
-    borderRadius: 6,
+    flexDirection: 'column',
+    gap: 5,
+  },
+
+  sectionHeading: {
+    fontSize: 14,
+    borderBottom: '1px solid #000', // Line under heading
+    textTransform: 'uppercase', // All caps
+    marginBottom: -2, // So line is not too far from heading
+    paddingBottom: 2,
   },
 
   /* Default styling (for sections not styled yet) */
@@ -71,8 +77,10 @@ export interface ResumeData {
   email: string;
   address: string;
   linkedIn: string;
-  gitHub?: string; // Becase GitHub is optional
-  education: string;
+  gitHub: string;
+  degree: string;
+  institution: string;
+  gradDate: string;
   work_experience: string;
 }
 
@@ -101,11 +109,18 @@ const Resume = ({ data }: { data: ResumeData }) => (
         </View>
       </View>
       <View style={resumeStyle.section}>
-        <Text style={resumeStyle.heading}>Education</Text>
-        <Text style={resumeStyle.value}>{data?.education || ""}</Text>
+        <Text style={resumeStyle.sectionHeading}>Education</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text style={resumeStyle.value}>
+            {data?.degree || ""} - {data?.institution}
+          </Text>
+          <Text style={{ ...resumeStyle.value, textAlign: 'right' }}>
+            {data?.gradDate || ""}
+          </Text>
+        </View>
       </View>
       <View style={resumeStyle.section}>
-        <Text style={resumeStyle.heading}>Work Experience</Text>
+        <Text style={resumeStyle.sectionHeading}>Work Experience</Text>
         <Text style={resumeStyle.value}>{data?.work_experience || ""}</Text>
       </View>
     </Page>

@@ -24,7 +24,9 @@ function App() {
     address: "Los Angeles, CA",
     linkedIn: "https://www.linkedin.com/",
     gitHub: "https://www.github.com/",
-    education: "We don't need no education",
+    degree: "B.S. in Computer Science",
+    institution: "University of California, Los Angeles",
+    gradDate: "June 2023",
     work_experience: "None",
   });
 
