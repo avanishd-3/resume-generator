@@ -1,6 +1,5 @@
 // Making resume a PDF document
 import {Page, Text, View, Document, StyleSheet, Link} from '@react-pdf/renderer';
-
 const VERTICAL_PADDING = 20; // So top and bottom padding never go out of sync
 
 // Resume styles
@@ -78,9 +77,11 @@ export interface ResumeData {
   address: string;
   linkedIn: string;
   gitHub: string;
-  degree: string;
-  institution: string;
-  gradDate: string;
+  degrees: {
+    degree: string;
+    institution: string;
+    gradDate: string;
+  }[];
   work_experience: string;
 }
 
@@ -110,14 +111,18 @@ const Resume = ({ data }: { data: ResumeData }) => (
       </View>
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Education</Text>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Text style={resumeStyle.value}>
-            {data?.degree || ""} - {data?.institution}
-          </Text>
-          <Text style={{ ...resumeStyle.value, textAlign: 'right' }}>
-            {data?.gradDate || ""}
-          </Text>
-        </View>
+        {/* Map through degrees and display them */}
+        {/* Should be fine to use idx as key since new list generated on each form submission */}
+        {data.degrees && data.degrees.map((deg, idx) => (
+          <View key={idx} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Text style={resumeStyle.value}>
+              {deg.degree || ""} - {deg.institution}
+            </Text>
+            <Text style={{ ...resumeStyle.value, textAlign: 'right' }}>
+              {deg.gradDate || ""}
+            </Text>
+          </View>
+        ))}
       </View>
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Work Experience</Text>

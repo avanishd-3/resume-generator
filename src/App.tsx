@@ -24,9 +24,13 @@ function App() {
     address: "Los Angeles, CA",
     linkedIn: "https://www.linkedin.com/",
     gitHub: "https://www.github.com/",
-    degree: "B.S. in Computer Science",
-    institution: "University of California, Los Angeles",
-    gradDate: "June 2023",
+    degrees: [
+      {
+        degree: "B.S. in Computer Science",
+        institution: "University of California, Los Angeles",
+        gradDate: "June 2023",
+      },
+    ],
     work_experience: "None",
   });
 

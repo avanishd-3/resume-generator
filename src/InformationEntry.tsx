@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -41,10 +42,13 @@ const formSchema = z.object({
           'This is not a valid GitHub URL'
         ),
   // Education details
-  degree: z.string().min(1, { message: "Education is required" }),
-  institution: z.string().min(1, { message: "Institution is required" }),
-  gradDate: z.string().min(1, { message: "Graduation date is required" }),
-
+  degrees: z.array(
+    z.object({
+      degree: z.string().min(1, { message: "Degree is required" }),
+      institution: z.string().min(1, { message: "Institution is required" }),
+      gradDate: z.string().min(1, { message: "Graduation date is required" }),
+    })
+  ).min(1, { message: "At least one degree is required" }),
 
   // Work experience details
   work_experience: z.string().min(1, { message: "Work experience is required" }),
@@ -73,11 +77,21 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
       address: "Los Angeles, CA",
       linkedIn: "https://www.linkedin.com/",
       gitHub: "https://www.github.com/",
-      degree: "B.S. in Computer Science",
-      institution: "University of California, Los Angeles",
-      gradDate: "June 2023",
+      degrees: [
+      {
+        degree: "B.S. in Computer Science",
+        institution: "University of California, Los Angeles",
+        gradDate: "June 2023",
+      },
+    ],
       work_experience: "None",
     },
+  });
+
+  // Allow multiple degrees and (eventually) work experiences
+  const {fields, append, remove} = useFieldArray({
+    control: form.control,
+    name: "degrees",
   });
 
   // Toggle expansion
@@ -202,53 +216,73 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
             </button>
             <div
               className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                openSections.education ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"
+                openSections.education ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="py-2">
-                <FormField
-                  control={form.control}
-                  name="degree"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Degree</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Degree" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="institution"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Institution</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Institution" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="gradDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Graduation Date</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Graduation Date" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                
+              <div className="py-2 space-y-6">
+                {fields.map((item, idx) => (
+                  <div key={item.id} className="border-b pb-4 mb-4">
+                    <div className="flex justify-between items-center mb-2">
+                      {fields.length > 1 && (
+                        <button
+                          type="button"
+                          className="text-red-500 text-xs"
+                          onClick={() => remove(idx)}
+                          disabled={idx === 0}
+                          title={idx === 0 ? "Cannot remove the first degree" : "Remove"}
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name={`degrees.${idx}.degree`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Degree</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Degree" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name={`degrees.${idx}.institution`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Institution</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Institution" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name={`degrees.${idx}.gradDate`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Graduation Date</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Graduation Date" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
+                  onClick={() => append({degree: "", institution: "", gradDate: "" })}
+                >
+                  Add Degree
+                </button>
               </div>
             </div>
           </div>
