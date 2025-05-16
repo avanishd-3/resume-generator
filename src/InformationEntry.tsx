@@ -23,7 +23,7 @@ import { useState } from "react";
 const formSchema = z.object({
   // Personal details
   name: z.string().min(1, { message: "Name is required" }),
-  phone_number: z.string().min(1, { message: "Phone number is required" }),
+  phone_number: z.string().min(1, { message: "Phone number is required" }), // TODO -> Add phone number validation
   email: z.string().email().min(1, { message: "Email is required" }),
   address: z.string().min(1, { message: "Address is required" }),
   linkedIn: z.string()
