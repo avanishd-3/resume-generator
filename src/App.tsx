@@ -41,6 +41,18 @@ function App() {
         ],
       },
     ],
+    projects: [
+      {
+        title: "TherapyGPT",
+        startDate: "January 2023",
+        endDate: "March 2023",
+        description: [
+          { value: "Developed an AI model finetuned for therapeutic conversations" },
+          { value: "Implemented voice-to-text and text-to-speech interface using React and Node js" },
+          { value: "Secured users' data using AWS" },
+        ],
+      },
+    ],
   });
 
   // Handler to recieve data from Information component

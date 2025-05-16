@@ -107,13 +107,14 @@ const resumeStyle = StyleSheet.create({
     flex: 1, // Take up all available space
   },
 
-  /* Default styling (for sections not styled yet) */
-  
-  label: {
+  /* Projects section */
+  projectName: {
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: '350',
   },
-  value: {
+
+  /* Default text styling */
+  defaultText: {
     fontSize: 12,
     marginBottom: 4,
   },
@@ -143,21 +144,25 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
            </Link>
         </View>
       </View>
+
+      {/* Education section */}
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Education</Text>
         {/* Map through degrees and display them */}
         {/* Should be fine to use idx as key since new list generated on each form submission */}
         {data.degrees && data.degrees.map((deg, idx) => (
           <View key={idx} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Text style={resumeStyle.value}>
+            <Text style={resumeStyle.defaultText}>
               {deg.degree || ""} - {deg.institution}
             </Text>
-            <Text style={{ ...resumeStyle.value, textAlign: 'right' }}>
+            <Text style={{ ...resumeStyle.defaultText, textAlign: 'right' }}>
               {deg.gradDate || ""}
             </Text>
           </View>
         ))}
       </View>
+
+      {/* Work experience section */}
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Work Experience</Text>
         {/* Map through jobs and display them */}
@@ -193,8 +198,47 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
           </View>
         ))}
       </View>
+
+      {/* Projects section */}
+      {projectsSection(data)}
     </Page>
   </Document>
 );
+
+function projectsSection(data: ResumeFormValues) {
+  // Do not dipslay if no projects
+  if (data.projects && data.projects.length > 0) {
+    return (
+      <View style={resumeStyle.section}>
+        <Text style={resumeStyle.sectionHeading}>Projects</Text>
+        {/* Map through projects and display them */}
+        {/* Should be fine to use idx as key since new list generated on each form submission */}
+        {data.projects && data.projects.map((project, idx) => (
+          <View key={idx}>
+            <View style={resumeStyle.jobLines}>
+              <Text style={resumeStyle.projectName}>
+                {project.title || ""}
+              </Text>
+              <Text style={resumeStyle.jobDates}>
+                {project.startDate || ""} - {project.endDate || ""}
+              </Text>
+            </View>
+            {/* Map through project descriptions and display them */}
+            {/* Should be fine to use idx as key since new list generated on each form submission */}
+            {project.description && project.description.map((desc, idx) => (
+              <View key={idx} style={resumeStyle.bulletPoint}>
+                <Text style={resumeStyle.bulletPointChar}>•</Text>
+                <Text style={resumeStyle.bulletPointText}>
+                  {desc.value || ""}
+                </Text>
+              </View>
+            ))}
+          </View>
+        ))}
+      </View>
+    );
+
+  }
+}
 
 export default Resume;

@@ -61,6 +61,15 @@ const formSchema = z.object({
       description: z.array(z.object({ value: z.string().min(1, { message: "Bullet point is required" }) })).min(1, { message: "Description is required" }),
     })
   ).min(1, { message: "At least one job is required" }),
+
+  projects: z.array(
+    z.object({
+      title: z.string().min(1, { message: "Project title is required" }),
+      startDate: z.string().min(1, { message: "Start date is required" }),
+      endDate: z.string().min(1, { message: "End date is required" }),
+      description: z.array(z.object({ value: z.string().min(1, { message: "Bullet point is required" }) })).min(1, { message: "Description is required" }),
+      })
+    ).optional(),
 });
 
 // So we can use the form values in other components
@@ -73,13 +82,6 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
   function handleSubmit(values: z.infer<typeof formSchema>) {
     onSubmit(values);
   }
-
-  // Track expansion state of sections
-  const [openSections, setOpenSections] = useState({
-    personal: true,
-    education: false,
-    work: false,
-  });
 
   // Initialize form with react-hook-form
   const form = useForm({
@@ -110,7 +112,19 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
           { value: "Implemented a new feature that increased user engagement by 20%." },
         ],
       }
-    ]
+    ],
+     projects: [
+      {
+        title: "TherapyGPT",
+        startDate: "January 2023",
+        endDate: "March 2023",
+        description: [
+          { value: "Developed an AI model finetuned for therapeutic conversations" },
+          { value: "Implemented voice-to-text and text-to-speech interface using React and Node js" },
+          { value: "Secured users' data using AWS" },
+        ],
+      },
+    ],
     },
   });
 
@@ -123,6 +137,19 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
   const {fields: jobFields, append: jobAppend, remove: jobRemove} = useFieldArray({
     control: form.control,
     name: "jobs",
+  });
+
+  // Track expansion state of sections
+  const [openSections, setOpenSections] = useState({
+    personal: true,
+    education: false,
+    work: false,
+    projects: false,
+  });
+
+  const {fields: projectFields, append: projectAppend, remove: projectRemove} = useFieldArray({
+    control: form.control,
+    name: "projects",
   });
 
  
@@ -449,6 +476,106 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
             </div>
           </div>
 
+          {/* Projects Section */}
+          <div>
+            <button
+              type="button"
+              onClick={() => toggleSection("projects")}
+              className="w-full flex items-center justify-between bg-white dark:bg-slate-900 rounded px-4 py-2 font-medium text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
+            >
+              Projects
+              <span>{openSections.projects ? "▲" : "▼"}</span>
+            </button>
+            <div
+              className={`overflow-y-auto transition-all duration-300 ease-in-out ${
+                openSections.projects ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              <div className="py-2 space-y-6 overflow-y-auto">
+                {projectFields.map((project, projIdx) => (
+                  <div key={project.id} className="border-b pb-4 mb-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold">Project {projIdx + 1}</span>
+                      {projectFields.length >= 1 && (
+                        <button
+                          type="button"
+                          className="text-red-500 text-xs"
+                          onClick={() => projectRemove(projIdx)}
+                          // Projects are optional, so allow removing the last one
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name={`projects.${projIdx}.title`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Project Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Project Name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="flex gap-2">
+                      <FormField
+                        control={form.control}
+                        name={`projects.${projIdx}.startDate`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Start Date</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Start Date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name={`projects.${projIdx}.endDate`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>End Date</FormLabel>
+                            <FormControl>
+                              <Input placeholder="End Date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="mt-2">
+                      <span className="font-semibold">Description</span>
+                      <ProjectDescriptionFields
+                        nestIndex={projIdx}
+                        control={form.control}
+                      />
+                    </div>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
+                  onClick={() =>
+                    projectAppend({
+                      title: "",
+                      startDate: "",
+                      endDate: "",
+                      description: [{ value: "" }],
+                    })
+                  }
+                >
+                  Add Project
+                </button>
+              </div>
+            </div>
+          </div>
+
           <Button type="submit" className="w-full">Submit</Button>
         </form>
       </Form>
@@ -507,5 +634,57 @@ function JobDescriptionFields({ nestIndex, control }: JobDescriptionFieldsProps)
     </>
   );
 }
+
+type ProjectDescriptionFieldsProps = {
+  nestIndex: number;
+  control: Control<z.infer<typeof formSchema>>;
+};
+
+function ProjectDescriptionFields({ nestIndex, control }: ProjectDescriptionFieldsProps) {
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: `projects.${nestIndex}.description`,
+  });
+
+  return (
+    <>
+      {fields.map((desc, descIdx) => (
+        <div key={desc.id} className="flex items-center gap-2 mt-1">
+          <FormField
+            control={control}
+            name={`projects.${nestIndex}.description.${descIdx}.value`}
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormControl>
+                  <Input placeholder="Bullet point" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {fields.length > 1 && (
+            <button
+              type="button"
+              className="text-red-500 text-xs"
+              onClick={() => remove(descIdx)}
+              title="Remove bullet"
+            >
+              Remove
+            </button>
+          )}
+        </div>
+      ))}
+      <button
+        type="button"
+        className="bg-blue-500 text-white px-2 py-0.5 rounded text-xs mt-1"
+        onClick={() => append({ value: "" })}
+      >
+        Add Bullet
+      </button>
+    </>
+  );
+} 
+
 
 export default Information;
