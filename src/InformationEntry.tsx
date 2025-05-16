@@ -136,7 +136,8 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
   }
 
   return (
-    <div className="flex items-start justify-start min-h-svh scroll-auto dark:bg-slate-950 bg-slate-100 p-8">
+    // Hide scrollbar until user scrolls
+    <div className="flex items-start justify-start min-h-svh overflow-y-auto dark:bg-slate-950 bg-slate-100 p-8">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 w-[350px]">
           {/* Personal Details Section */}
@@ -331,11 +332,11 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
               <span>{openSections.work ? "▲" : "▼"}</span>
             </button>
             <div
-              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              className={`overflow-y-auto transition-all duration-300 ease-in-out ${
                 openSections.work ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="py-2 space-y-6 scroll-auto">
+              <div className="py-2 space-y-6">
                 {jobFields.map((job, jobIdx) => (
                   <div key={job.id} className="border-b pb-4 mb-4">
                     <div className="flex justify-between items-center mb-2">
