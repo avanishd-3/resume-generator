@@ -64,7 +64,7 @@ const formSchema = z.object({
   ).min(1, { message: "At least one job is required" }),
 });
 
-// TODO -> Allow scrolling of form 
+// TODO -> Make job scrolling a little less janky
 
 function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
 
@@ -134,7 +134,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
   }
 
   return (
-    <div className="flex items-start justify-start min-h-svh dark:bg-slate-950 bg-slate-100 p-8">
+    <div className="flex items-start justify-start min-h-svh scroll-auto dark:bg-slate-950 bg-slate-100 p-8">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 w-[350px]">
           {/* Personal Details Section */}
@@ -333,7 +333,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
                 openSections.work ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="py-2 space-y-6">
+              <div className="py-2 space-y-6 scroll-auto">
                 {jobFields.map((job, jobIdx) => (
                   <div key={job.id} className="border-b pb-4 mb-4">
                     <div className="flex justify-between items-center mb-2">
