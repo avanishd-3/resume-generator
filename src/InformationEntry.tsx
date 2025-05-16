@@ -18,6 +18,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
+// Import default values for the form
+import { DefaultResumeValues } from "./lib/defaultResumeValues";
 // Form field types to be validated (only client-side)
 
 const formSchema = z.object({
@@ -44,6 +46,7 @@ const formSchema = z.object({
   // Education details
   degrees: z.array(
     z.object({
+      id: z.string().uuid().min(1, { message: "ID is required" }),
       degree: z.string().min(1, { message: "Degree is required" }),
       institution: z.string().min(1, { message: "Institution is required" }),
       gradDate: z.string().min(1, { message: "Graduation date is required" }),
@@ -53,21 +56,23 @@ const formSchema = z.object({
   // Work experience details
   jobs: z.array(
     z.object({
+      id: z.string().uuid().min(1, { message: "ID is required" }),
       company: z.string().min(1, { message: "Company is required" }),
       position: z.string().min(1, { message: "Position is required" }),
       location: z.string().min(1, { message: "Location is required" }),
       startDate: z.string().min(1, { message: "Start date is required" }),
       endDate: z.string().min(1, { message: "End date is required" }),
-      description: z.array(z.object({ value: z.string().min(1, { message: "Bullet point is required" }) })).min(1, { message: "Description is required" }),
+      description: z.array(z.object({ id: z.string().uuid().min(1, "ID is required"), value: z.string().min(1, { message: "Bullet point is required" }) })).min(1, { message: "Description is required" }),
     })
   ).min(1, { message: "At least one job is required" }),
 
   projects: z.array(
     z.object({
+      id: z.string().uuid().min(1, { message: "ID is required" }),
       title: z.string().min(1, { message: "Project title is required" }),
       startDate: z.string().min(1, { message: "Start date is required" }),
       endDate: z.string().min(1, { message: "End date is required" }),
-      description: z.array(z.object({ value: z.string().min(1, { message: "Bullet point is required" }) })).min(1, { message: "Description is required" }),
+      description: z.array(z.object({ id: z.string().uuid().min(1, "ID is required"), value: z.string().min(1, { message: "Bullet point is required" }) })).min(1, { message: "Description is required" }),
       })
     ).optional(),
 });
@@ -86,46 +91,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
   // Initialize form with react-hook-form
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "John Doe",
-      phone_number: "123-456-7809",
-      email: "john_doe@gmail.com",
-      address: "Los Angeles, CA",
-      linkedIn: "https://www.linkedin.com/",
-      gitHub: "https://www.github.com/",
-      degrees: [
-      {
-        degree: "B.S. in Computer Science",
-        institution: "University of California, Los Angeles",
-        gradDate: "June 2023",
-      },
-    ],
-    jobs: [
-      {
-        company: "Google",
-        position: "Software Engineer Intern",
-        location: "Mountain View, CA",
-        startDate: "June 2022",
-        endDate: "August 2022",
-        description: [
-          { value: "Worked on the Google Search team to improve search algorithms." },
-          { value: "Implemented a new feature that increased user engagement by 20%." },
-        ],
-      }
-    ],
-     projects: [
-      {
-        title: "TherapyGPT",
-        startDate: "January 2023",
-        endDate: "March 2023",
-        description: [
-          { value: "Developed an AI model finetuned for therapeutic conversations" },
-          { value: "Implemented voice-to-text and text-to-speech interface using React and Node js" },
-          { value: "Secured users' data using AWS" },
-        ],
-      },
-    ],
-    },
+    defaultValues: DefaultResumeValues,
   });
 
   // Allow multiple degrees and jobs
@@ -340,7 +306,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                 <button
                   type="button"
                   className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
-                  onClick={() => append({ degree: "", institution: "", gradDate: "" })}
+                  onClick={() => append({id: crypto.randomUUID(), degree: "", institution: "", gradDate: "" })}
                 >
                   Add Degree
                 </button>
@@ -461,12 +427,13 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                   className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
                   onClick={() =>
                     jobAppend({
+                      id: crypto.randomUUID(),
                       company: "",
                       position: "",
                       location: "",
                       startDate: "",
                       endDate: "",
-                      description: [{ value: "" }],
+                      description: [{id: crypto.randomUUID(), value: "" }],
                     })
                   }
                 >
@@ -563,10 +530,11 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                   className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
                   onClick={() =>
                     projectAppend({
+                      id: crypto.randomUUID(),
                       title: "",
                       startDate: "",
                       endDate: "",
-                      description: [{ value: "" }],
+                      description: [{ id: crypto.randomUUID(), value: "" }],
                     })
                   }
                 >
@@ -627,7 +595,7 @@ function JobDescriptionFields({ nestIndex, control }: JobDescriptionFieldsProps)
       <button
         type="button"
         className="bg-blue-500 text-white px-2 py-0.5 rounded text-xs mt-1"
-        onClick={() => append({ value: "" })}
+        onClick={() => append({id: crypto.randomUUID(), value: "" })}
       >
         Add Bullet
       </button>
@@ -678,7 +646,7 @@ function ProjectDescriptionFields({ nestIndex, control }: ProjectDescriptionFiel
       <button
         type="button"
         className="bg-blue-500 text-white px-2 py-0.5 rounded text-xs mt-1"
-        onClick={() => append({ value: "" })}
+        onClick={() => append({id: crypto.randomUUID(), value: "" })}
       >
         Add Bullet
       </button>

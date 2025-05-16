@@ -149,9 +149,8 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Education</Text>
         {/* Map through degrees and display them */}
-        {/* Should be fine to use idx as key since new list generated on each form submission */}
-        {data.degrees && data.degrees.map((deg, idx) => (
-          <View key={idx} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        {data.degrees && data.degrees.map((deg) => (
+          <View key={deg.id} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={resumeStyle.defaultText}>
               {deg.degree || ""} - {deg.institution}
             </Text>
@@ -166,9 +165,8 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Work Experience</Text>
         {/* Map through jobs and display them */}
-        {/* Should be fine to use idx as key since new list generated on each form submission */}
-        {data.jobs && data.jobs.map((job, idx) => (
-          <View key={idx}>
+        {data.jobs && data.jobs.map((job) => (
+          <View key={job.id}>
             <View style={resumeStyle.jobLines}>
               <Text style={resumeStyle.jobCompany}>
                 {job.company || ""}
@@ -186,9 +184,8 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
               </Text>
             </View>
             {/* Map through job description and display them */}
-            {/* Should be fine to use idx as key since new list generated on each form submission */}
-            {job.description && job.description.map((desc, idx) => (
-              <View key={idx} style={resumeStyle.bulletPoint}>
+            {job.description && job.description.map((desc) => (
+              <View key={desc.id} style={resumeStyle.bulletPoint}>
                 <Text style={resumeStyle.bulletPointChar}>•</Text>
                 <Text style={resumeStyle.bulletPointText}>
                   {desc.value || ""}
@@ -212,9 +209,8 @@ function projectsSection(data: ResumeFormValues) {
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Projects</Text>
         {/* Map through projects and display them */}
-        {/* Should be fine to use idx as key since new list generated on each form submission */}
-        {data.projects && data.projects.map((project, idx) => (
-          <View key={idx}>
+        {data.projects && data.projects.map((project) => (
+          <View key={project.id}>
             <View style={resumeStyle.jobLines}>
               <Text style={resumeStyle.projectName}>
                 {project.title || ""}
@@ -224,9 +220,8 @@ function projectsSection(data: ResumeFormValues) {
               </Text>
             </View>
             {/* Map through project descriptions and display them */}
-            {/* Should be fine to use idx as key since new list generated on each form submission */}
-            {project.description && project.description.map((desc, idx) => (
-              <View key={idx} style={resumeStyle.bulletPoint}>
+            {project.description && project.description.map((desc) => (
+              <View key={desc.id} style={resumeStyle.bulletPoint}>
                 <Text style={resumeStyle.bulletPointChar}>•</Text>
                 <Text style={resumeStyle.bulletPointText}>
                   {desc.value || ""}

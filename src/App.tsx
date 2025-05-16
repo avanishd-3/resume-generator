@@ -6,6 +6,7 @@ import {useState } from 'react'
 // Local imports
 import Information, { type ResumeFormValues } from './InformationEntry.tsx'
 import Resume from './Resume.tsx'
+import { DefaultResumeValues } from './lib/defaultResumeValues.ts'
 
 // Read generated PDF
 import { PDFViewer } from '@react-pdf/renderer';
@@ -14,46 +15,7 @@ import { PDFViewer } from '@react-pdf/renderer';
 function App() {
 
   // Initialize form data w/ default values
-  const [formData, setFormData] = useState<ResumeFormValues>({
-    name: "John Doe",
-    phone_number: "123-456-7809",
-    email: "john_doe@gmail.com",
-    address: "Los Angeles, CA",
-    linkedIn: "https://www.linkedin.com/",
-    gitHub: "https://www.github.com/",
-    degrees: [
-      {
-        degree: "B.S. in Computer Science",
-        institution: "University of California, Los Angeles",
-        gradDate: "June 2023",
-      },
-    ],
-    jobs: [
-      {
-        company: "Google",
-        position: "Software Engineer Intern",
-        location: "Mountain View, CA",
-        startDate: "June 2022",
-        endDate: "August 2022",
-        description: [
-          { value: "Worked on the Google Search team to improve search algorithms." },
-          { value: "Implemented a new feature that increased user engagement by 20%." },
-        ],
-      },
-    ],
-    projects: [
-      {
-        title: "TherapyGPT",
-        startDate: "January 2023",
-        endDate: "March 2023",
-        description: [
-          { value: "Developed an AI model finetuned for therapeutic conversations" },
-          { value: "Implemented voice-to-text and text-to-speech interface using React and Node js" },
-          { value: "Secured users' data using AWS" },
-        ],
-      },
-    ],
-  });
+  const [formData, setFormData] = useState<ResumeFormValues>({...DefaultResumeValues});
 
   // Handler to recieve data from Information component
   const handleFormData = (data: ResumeFormValues) => {
