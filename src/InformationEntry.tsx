@@ -28,12 +28,14 @@ const formSchema = z.object({
   address: z.string().min(1, { message: "Address is required" }),
   linkedIn: z.string()
     .min(1, { message: "LinkedIn URL is required" })
+    .startsWith("https://", { message: "LinkedIn URL must start with https://" })
     .refine((val) => 
       /^(https?:\/\/)?(www\.)?linkedin\.com\/.*$/.test(val ?? ""), // Verify URL is LinkedIn (so no security issues arise)
       'This is not a valid LinkedIn URL'
     ),
   gitHub: z.string()
           .min(1, { message: "GitHub URL is required" })
+          .startsWith("https://", { message: "GitHub URL must start with https://" })
           .refine(
           (val) =>
             !val || /^(https?:\/\/)?(www\.)?github\.com\/.*$/.test(val),
