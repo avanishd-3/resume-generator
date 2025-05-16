@@ -4,11 +4,8 @@
 import {useState } from 'react'
 
 // Local imports
-import Information from './InformationEntry.tsx'
+import Information, { type ResumeFormValues } from './InformationEntry.tsx'
 import Resume from './Resume.tsx'
-// Import the ResumeData type from Resume.tsx
-import type { ResumeData } from './Resume.tsx';
-
 
 // Read generated PDF
 import { PDFViewer } from '@react-pdf/renderer';
@@ -17,7 +14,7 @@ import { PDFViewer } from '@react-pdf/renderer';
 function App() {
 
   // Initialize form data w/ default values
-  const [formData, setFormData] = useState<ResumeData>({
+  const [formData, setFormData] = useState<ResumeFormValues>({
     name: "John Doe",
     phone_number: "123-456-7809",
     email: "john_doe@gmail.com",
@@ -47,7 +44,7 @@ function App() {
   });
 
   // Handler to recieve data from Information component
-  const handleFormData = (data: ResumeData) => {
+  const handleFormData = (data: ResumeFormValues) => {
     setFormData(data);
   };
 

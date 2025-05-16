@@ -1,3 +1,6 @@
+// Get form types
+import type { ResumeFormValues } from './InformationEntry.tsx';
+
 // Making resume a PDF document
 import {Page, Text, View, Document, StyleSheet, Link} from '@react-pdf/renderer';
 const VERTICAL_PADDING = 20; // So top and bottom padding never go out of sync
@@ -116,29 +119,7 @@ const resumeStyle = StyleSheet.create({
   },
 });
 
-export interface ResumeData {
-  name: string;
-  phone_number: string;
-  email: string;
-  address: string;
-  linkedIn: string;
-  gitHub: string;
-  degrees: {
-    degree: string;
-    institution: string;
-    gradDate: string;
-  }[];
-  jobs: {
-    company: string,
-    position: string,
-    location: string,
-    startDate: string,
-    endDate: string,
-    description: {value: string}[];
-  }[];
-}
-
-const Resume = ({ data }: { data: ResumeData }) => (
+const Resume = ({ data }: { data: ResumeFormValues }) => (
   <Document>
     <Page size="A4" style={resumeStyle.page}>
       <View style={resumeStyle.heading}>

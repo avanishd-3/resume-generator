@@ -18,9 +18,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
-// Local imports
-import type { ResumeData } from "./Resume";
-
 // Form field types to be validated (only client-side)
 
 const formSchema = z.object({
@@ -64,9 +61,12 @@ const formSchema = z.object({
   ).min(1, { message: "At least one job is required" }),
 });
 
+// So we can use the form values in other components
+export type ResumeFormValues = z.infer<typeof formSchema>;
+
 // TODO -> Make job scrolling a little less janky
 
-function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
+function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void }) {
 
   function handleSubmit(values: z.infer<typeof formSchema>) {
     onSubmit(values);
