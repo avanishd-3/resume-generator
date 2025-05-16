@@ -31,7 +31,19 @@ function App() {
         gradDate: "June 2023",
       },
     ],
-    work_experience: "None",
+    jobs: [
+      {
+        company: "Google",
+        position: "Software Engineer Intern",
+        location: "Mountain View, CA",
+        startDate: "June 2022",
+        endDate: "August 2022",
+        description: [
+          { value: "Worked on the Google Search team to improve search algorithms." },
+          { value: "Implemented a new feature that increased user engagement by 20%." },
+        ],
+      },
+    ],
   });
 
   // Handler to recieve data from Information component

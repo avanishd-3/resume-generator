@@ -44,7 +44,7 @@ const resumeStyle = StyleSheet.create({
     color: '#0000FF', // Default link color
   },
 
-  /* Regular sections */
+  /* Education sections */
   section: {
     flexDirection: 'column',
     gap: 5,
@@ -56,6 +56,52 @@ const resumeStyle = StyleSheet.create({
     textTransform: 'uppercase', // All caps
     marginBottom: -2, // So line is not too far from heading
     paddingBottom: 2,
+  },
+
+  /* Work experience section */
+  jobLines: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 1,
+  },
+  jobLeftAlignParts: {
+    flexDirection: 'row',
+    flexwrap: 'wrap',
+  },
+  jobCompany: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  jobDates: {
+    fontSize: 12,
+    textAlign: 'right',
+    flexShrink: 0, 
+  },
+  jobPosition: {
+    fontSize: 11,
+    marginTop: 1,
+    fontFamily: 'Times-Italic', // Italic font
+  },
+  jobLocation: {
+    fontSize: 12,
+    textAlign: 'right',
+    flexShrink: 0,
+    fontStyle: 'italic',
+  },
+  bulletPoint: {
+    flexDirection: 'row',
+    marginLeft: 2,
+    marginTop: 2,
+    alignItems: 'flex-start', // Align bullet point with text
+    gap: 10, // Space between bullet point and text
+  },
+  bulletPointChar: { // Dot for bullet point
+    fontSize: 14, // Bigger than text
+    marginTop: -2,
+  },
+  bulletPointText: {
+    fontSize: 10.5,
+    flex: 1, // Take up all available space
   },
 
   /* Default styling (for sections not styled yet) */
@@ -82,7 +128,14 @@ export interface ResumeData {
     institution: string;
     gradDate: string;
   }[];
-  work_experience: string;
+  jobs: {
+    company: string,
+    position: string,
+    location: string,
+    startDate: string,
+    endDate: string,
+    description: {value: string}[];
+  }[];
 }
 
 const Resume = ({ data }: { data: ResumeData }) => (
@@ -126,7 +179,38 @@ const Resume = ({ data }: { data: ResumeData }) => (
       </View>
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Work Experience</Text>
-        <Text style={resumeStyle.value}>{data?.work_experience || ""}</Text>
+        {/* Map through degrees and display them */}
+        {/* Should be fine to use idx as key since new list generated on each form submission */}
+        {data.jobs && data.jobs.map((job, idx) => (
+          <View key={idx}>
+            <View style={resumeStyle.jobLines}>
+              <Text style={resumeStyle.jobCompany}>
+                {job.company || ""}
+              </Text>
+              <Text style={resumeStyle.jobDates}>
+                {job.startDate || ""} - {job.endDate || ""}
+              </Text>
+            </View>
+            <View style={resumeStyle.jobLines}>
+              <Text style={resumeStyle.jobPosition}>
+                {job.position || ""}
+              </Text>
+              <Text style={resumeStyle.jobLocation}>
+                {job.location || ""}
+              </Text>
+            </View>
+            {/* Map through job description and display them */}
+            {/* Should be fine to use idx as key since new list generated on each form submission */}
+            {job.description && job.description.map((desc, idx) => (
+              <View key={idx} style={resumeStyle.bulletPoint}>
+                <Text style={resumeStyle.bulletPointChar}>•</Text>
+                <Text style={resumeStyle.bulletPointText}>
+                  {desc.value || ""}
+                </Text>
+              </View>
+            ))}
+          </View>
+        ))}
       </View>
     </Page>
   </Document>

@@ -2,8 +2,10 @@
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useFieldArray } from "react-hook-form";
+import { useForm} from "react-hook-form";
+import { useFieldArray} from "react-hook-form";
+import type { Control} from "react-hook-form";
+
 import {
   Form,
   FormControl,
@@ -21,7 +23,6 @@ import type { ResumeData } from "./Resume";
 
 // Form field types to be validated (only client-side)
 
-// TODO -> Add support for multiple degrees
 const formSchema = z.object({
   // Personal details
   name: z.string().min(1, { message: "Name is required" }),
@@ -51,8 +52,19 @@ const formSchema = z.object({
   ).min(1, { message: "At least one degree is required" }),
 
   // Work experience details
-  work_experience: z.string().min(1, { message: "Work experience is required" }),
+  jobs: z.array(
+    z.object({
+      company: z.string().min(1, { message: "Company is required" }),
+      position: z.string().min(1, { message: "Position is required" }),
+      location: z.string().min(1, { message: "Location is required" }),
+      startDate: z.string().min(1, { message: "Start date is required" }),
+      endDate: z.string().min(1, { message: "End date is required" }),
+      description: z.array(z.object({ value: z.string().min(1, { message: "Bullet point is required" }) })).min(1, { message: "Description is required" }),
+    })
+  ).min(1, { message: "At least one job is required" }),
 });
+
+// TODO -> Fix page crashing when 2nd bullet point is removed
 
 function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
 
@@ -84,15 +96,34 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
         gradDate: "June 2023",
       },
     ],
-      work_experience: "None",
+    jobs: [
+      {
+        company: "Google",
+        position: "Software Engineer Intern",
+        location: "Mountain View, CA",
+        startDate: "June 2022",
+        endDate: "August 2022",
+        description: [
+          { value: "Worked on the Google Search team to improve search algorithms." },
+          { value: "Implemented a new feature that increased user engagement by 20%." },
+        ],
+      }
+    ]
     },
   });
 
-  // Allow multiple degrees and (eventually) work experiences
+  // Allow multiple degrees and jobs
   const {fields, append, remove} = useFieldArray({
     control: form.control,
     name: "degrees",
   });
+
+  const {fields: jobFields, append: jobAppend, remove: jobRemove} = useFieldArray({
+    control: form.control,
+    name: "jobs",
+  });
+
+ 
 
   // Toggle expansion
   function toggleSection(section: keyof typeof openSections) {
@@ -279,7 +310,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
                 <button
                   type="button"
                   className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
-                  onClick={() => append({degree: "", institution: "", gradDate: "" })}
+                  onClick={() => append({ degree: "", institution: "", gradDate: "" })}
                 >
                   Add Degree
                 </button>
@@ -299,23 +330,118 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
             </button>
             <div
               className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                openSections.work ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"
+                openSections.work ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="py-2">
-                <FormField
-                  control={form.control}
-                  name="work_experience"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Work Experience</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Work Experience" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="py-2 space-y-6">
+                {jobFields.map((job, jobIdx) => (
+                  <div key={job.id} className="border-b pb-4 mb-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-semibold">Job {jobIdx + 1}</span>
+                      {jobFields.length > 1 && (
+                        <button
+                          type="button"
+                          className="text-red-500 text-xs"
+                          onClick={() => jobRemove(jobIdx)}
+                          disabled={jobIdx === 0}
+                          title={jobIdx === 0 ? "Cannot remove the first job" : "Remove"}
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name={`jobs.${jobIdx}.company`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Company</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Company" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name={`jobs.${jobIdx}.position`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Position</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Position" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name={`jobs.${jobIdx}.location`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Location</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Location" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="flex gap-2">
+                      <FormField
+                        control={form.control}
+                        name={`jobs.${jobIdx}.startDate`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Start Date</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Start Date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name={`jobs.${jobIdx}.endDate`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>End Date</FormLabel>
+                            <FormControl>
+                              <Input placeholder="End Date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="mt-2">
+                      <span className="font-semibold">Description</span>
+                      <JobDescriptionFields
+                        nestIndex={jobIdx}
+                        control={form.control}
+                      />
+                    </div>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
+                  onClick={() =>
+                    jobAppend({
+                      company: "",
+                      position: "",
+                      location: "",
+                      startDate: "",
+                      endDate: "",
+                      description: [{ value: "" }],
+                    })
+                  }
+                >
+                  Add Job
+                </button>
               </div>
             </div>
           </div>
@@ -324,6 +450,58 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
         </form>
       </Form>
     </div>
+  );
+}
+
+
+type JobDescriptionFieldsProps = {
+  nestIndex: number;
+  control: Control<z.infer<typeof formSchema>>;
+};
+
+function JobDescriptionFields({ nestIndex, control }: JobDescriptionFieldsProps) {
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: `jobs.${nestIndex}.description`,
+  });
+
+  return (
+    <>
+      {fields.map((desc, descIdx) => (
+        <div key={desc.id} className="flex items-center gap-2 mt-1">
+          <FormField
+            control={control}
+            name={`jobs.${nestIndex}.description.${descIdx}.value`}
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormControl>
+                  <Input placeholder="Bullet point" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {fields.length > 1 && (
+            <button
+              type="button"
+              className="text-red-500 text-xs"
+              onClick={() => remove(descIdx)}
+              title="Remove bullet"
+            >
+              Remove
+            </button>
+          )}
+        </div>
+      ))}
+      <button
+        type="button"
+        className="bg-blue-500 text-white px-2 py-0.5 rounded text-xs mt-1"
+        onClick={() => append({ value: "" })}
+      >
+        Add Bullet
+      </button>
+    </>
   );
 }
 
