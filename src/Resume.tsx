@@ -179,7 +179,7 @@ const Resume = ({ data }: { data: ResumeData }) => (
       </View>
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Work Experience</Text>
-        {/* Map through degrees and display them */}
+        {/* Map through jobs and display them */}
         {/* Should be fine to use idx as key since new list generated on each form submission */}
         {data.jobs && data.jobs.map((job, idx) => (
           <View key={idx}>
