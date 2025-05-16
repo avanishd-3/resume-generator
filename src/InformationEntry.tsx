@@ -64,7 +64,7 @@ const formSchema = z.object({
   ).min(1, { message: "At least one job is required" }),
 });
 
-// TODO -> Fix page crashing when 2nd bullet point is removed
+// TODO -> Allow scrolling of form 
 
 function Information({ onSubmit }: { onSubmit: (data: ResumeData) => void }) {
 
