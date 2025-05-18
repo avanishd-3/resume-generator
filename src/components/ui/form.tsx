@@ -1,3 +1,12 @@
+// Don't touch shadcn code for now
+
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable @typescript-eslint/no-unnecessary-template-expression */
+/* eslint-disable react-x/no-use-context */
+/* eslint-disable react-x/no-unstable-context-value */
+/* eslint-disable react-x/no-context-provider */
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"

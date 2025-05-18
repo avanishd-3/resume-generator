@@ -124,22 +124,22 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
   <Document>
     <Page size="A4" style={resumeStyle.page}>
       <View style={resumeStyle.heading}>
-        <Text style={resumeStyle.name}>{data?.name || ""}</Text>
+        <Text style={resumeStyle.name}>{data.name || ""}</Text>
         {/* Contact info */}
         <View style={resumeStyle.contactInfo}>
-          <Text style={resumeStyle.contactItem}>{data?.address || ""}</Text>
+          <Text style={resumeStyle.contactItem}>{data.address || ""}</Text>
           <Text> | </Text>
           <Text style={resumeStyle.contactItem}>
             {/* Follow format (123)456-7809 */}
-            {data?.phone_number ? `(${data.phone_number.slice(0, 3)})${data.phone_number.slice(3)}`: ""}</Text>
+            {data.phone_number ? `(${data.phone_number.slice(0, 3)})${data.phone_number.slice(3)}`: ""}</Text>
           <Text> | </Text>
-          <Text style={resumeStyle.contactItem}>{data?.email || ""}</Text>
+          <Text style={resumeStyle.contactItem}>{data.email || ""}</Text>
           <Text> | </Text>
-          <Link style={resumeStyle.contactLink} src={data?.linkedIn}>
+          <Link style={resumeStyle.contactLink} src={data.linkedIn}>
             LinkedIn
            </Link>
           <Text> | </Text>
-          <Link style={resumeStyle.contactLink} src={data?.gitHub}>
+          <Link style={resumeStyle.contactLink} src={data.gitHub}>
             GitHub
            </Link>
         </View>
@@ -149,7 +149,7 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Education</Text>
         {/* Map through degrees and display them */}
-        {data.degrees && data.degrees.map((deg) => (
+        {data.degrees.map((deg) => (
           <View key={deg.id} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={resumeStyle.defaultText}>
               {deg.degree || ""} - {deg.institution}
@@ -165,7 +165,7 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Work Experience</Text>
         {/* Map through jobs and display them */}
-        {data.jobs && data.jobs.map((job) => (
+        {data.jobs.map((job) => (
           <View key={job.id}>
             <View style={resumeStyle.jobLines}>
               <Text style={resumeStyle.jobCompany}>
@@ -184,7 +184,7 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
               </Text>
             </View>
             {/* Map through job description and display them */}
-            {job.description && job.description.map((desc) => (
+            {job.description.map((desc) => (
               <View key={desc.id} style={resumeStyle.bulletPoint}>
                 <Text style={resumeStyle.bulletPointChar}>•</Text>
                 <Text style={resumeStyle.bulletPointText}>
@@ -209,7 +209,7 @@ function projectsSection(data: ResumeFormValues) {
       <View style={resumeStyle.section}>
         <Text style={resumeStyle.sectionHeading}>Projects</Text>
         {/* Map through projects and display them */}
-        {data.projects && data.projects.map((project) => (
+        {data.projects.map((project) => (
           <View key={project.id}>
             <View style={resumeStyle.jobLines}>
               <Text style={resumeStyle.projectName}>
@@ -220,7 +220,7 @@ function projectsSection(data: ResumeFormValues) {
               </Text>
             </View>
             {/* Map through project descriptions and display them */}
-            {project.description && project.description.map((desc) => (
+            {project.description.map((desc) => (
               <View key={desc.id} style={resumeStyle.bulletPoint}>
                 <Text style={resumeStyle.bulletPointChar}>•</Text>
                 <Text style={resumeStyle.bulletPointText}>

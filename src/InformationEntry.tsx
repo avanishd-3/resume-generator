@@ -1,3 +1,8 @@
+// So form submission is allowed
+/* eslint-disable @typescript-eslint/no-misused-promises */
+
+// So using things like name={`degrees.${idx}.degree`} is allowed
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 "use client"
 
 import { z } from "zod";
@@ -32,7 +37,7 @@ const formSchema = z.object({
     .min(1, { message: "LinkedIn URL is required" })
     .startsWith("https://", { message: "LinkedIn URL must start with https://" })
     .refine((val) => 
-      /^(https?:\/\/)?(www\.)?linkedin\.com\/.*$/.test(val ?? ""), // Verify URL is LinkedIn (so no security issues arise)
+      /^(https?:\/\/)?(www\.)?linkedin\.com\/.*$/.test(val), // Verify URL is LinkedIn (so no security issues arise)
       'This is not a valid LinkedIn URL'
     ),
   gitHub: z.string()
@@ -137,7 +142,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
           <div>
             <button
               type="button"
-              onClick={() => toggleSection("personal")}
+              onClick={() => { toggleSection("personal"); }}
               className="w-full flex items-center justify-between bg-white dark:bg-slate-900 rounded px-4 py-2 font-medium text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2">
               Personal Details
               <span>{openSections.personal ? "▲" : "▼"}</span>
@@ -235,7 +240,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
           <div>
             <button
               type="button"
-              onClick={() => toggleSection("education")}
+              onClick={() => { toggleSection("education"); }}
               className="w-full flex items-center justify-between bg-white dark:bg-slate-900 rounded px-4 py-2 font-medium text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
             >
               Education
@@ -256,7 +261,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                         variant="ghost"
                         size="sm"
                         className="text-red-500 text-xs h-8 px-2"
-                        onClick={() => remove(idx)}
+                        onClick={() => { remove(idx); }}
                         disabled={idx === 0}
                         title={idx === 0 ? "Cannot remove the first degree" : "Remove"}
                       >Remove</Button>
@@ -306,7 +311,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                 <button
                   type="button"
                   className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
-                  onClick={() => append({id: crypto.randomUUID(), degree: "", institution: "", gradDate: "" })}
+                  onClick={() => { append({id: crypto.randomUUID(), degree: "", institution: "", gradDate: "" }); }}
                 >
                   Add Degree
                 </button>
@@ -318,7 +323,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
           <div>
             <button
               type="button"
-              onClick={() => toggleSection("work")}
+              onClick={() => { toggleSection("work"); }}
               className="w-full flex items-center justify-between bg-white dark:bg-slate-900 rounded px-4 py-2 font-medium text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
             >
               Work Experience
@@ -340,7 +345,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                         variant="ghost"
                         size="sm"
                         className="text-red-500 text-xs h-8 px-2"
-                        onClick={() => jobRemove(jobIdx)}
+                        onClick={() => { jobRemove(jobIdx); }}
                         disabled={jobIdx === 0}
                         title={jobIdx === 0 ? "Cannot remove the first degree" : "Remove"}
                       >Remove</Button>
@@ -426,7 +431,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                   type="button"
                   className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
                   onClick={() =>
-                    jobAppend({
+                    { jobAppend({
                       id: crypto.randomUUID(),
                       company: "",
                       position: "",
@@ -434,7 +439,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                       startDate: "",
                       endDate: "",
                       description: [{id: crypto.randomUUID(), value: "" }],
-                    })
+                    }); }
                   }
                 >
                   Add Job
@@ -447,7 +452,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
           <div>
             <button
               type="button"
-              onClick={() => toggleSection("projects")}
+              onClick={() => { toggleSection("projects"); }}
               className="w-full flex items-center justify-between bg-white dark:bg-slate-900 rounded px-4 py-2 font-medium text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
             >
               Projects
@@ -468,7 +473,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                         variant="ghost"
                         size="sm"
                         className="text-red-500 text-xs h-8 px-2"
-                        onClick={() => projectRemove(projIdx)}
+                        onClick={() => { projectRemove(projIdx); }}
                         // Projects are optional, so allow removing the last one
                       >Remove</Button>
                     </div>
@@ -527,13 +532,13 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                   type="button"
                   className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
                   onClick={() =>
-                    projectAppend({
+                    { projectAppend({
                       id: crypto.randomUUID(),
                       title: "",
                       startDate: "",
                       endDate: "",
                       description: [{ id: crypto.randomUUID(), value: "" }],
-                    })
+                    }); }
                   }
                 >
                   Add Project
@@ -550,10 +555,10 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
 }
 
 
-type JobDescriptionFieldsProps = {
+interface JobDescriptionFieldsProps {
   nestIndex: number;
   control: Control<z.infer<typeof formSchema>>;
-};
+}
 
 function JobDescriptionFields({ nestIndex, control }: JobDescriptionFieldsProps) {
 
@@ -584,7 +589,7 @@ function JobDescriptionFields({ nestIndex, control }: JobDescriptionFieldsProps)
               variant="ghost"
               size="sm"
               className="text-red-500 text-xs h-8 px-2"
-              onClick={() => remove(descIdx)}
+              onClick={() => { remove(descIdx); }}
             >Remove</Button>
           )}
         </div>
@@ -592,7 +597,7 @@ function JobDescriptionFields({ nestIndex, control }: JobDescriptionFieldsProps)
       <button
         type="button"
         className="bg-blue-500 text-white px-2 py-0.5 rounded text-xs mt-1"
-        onClick={() => append({id: crypto.randomUUID(), value: "" })}
+        onClick={() => { append({id: crypto.randomUUID(), value: "" }); }}
       >
         Add Bullet
       </button>
@@ -600,10 +605,10 @@ function JobDescriptionFields({ nestIndex, control }: JobDescriptionFieldsProps)
   );
 }
 
-type ProjectDescriptionFieldsProps = {
+interface ProjectDescriptionFieldsProps {
   nestIndex: number;
   control: Control<z.infer<typeof formSchema>>;
-};
+}
 
 function ProjectDescriptionFields({ nestIndex, control }: ProjectDescriptionFieldsProps) {
 
@@ -634,7 +639,7 @@ function ProjectDescriptionFields({ nestIndex, control }: ProjectDescriptionFiel
               variant="ghost"
               size="sm"
               className="text-red-500 text-xs h-8 px-2"
-              onClick={() => remove(descIdx)}
+              onClick={() => { remove(descIdx); }}
             >Remove</Button>
           )}
         </div>
@@ -642,7 +647,7 @@ function ProjectDescriptionFields({ nestIndex, control }: ProjectDescriptionFiel
       <button
         type="button"
         className="bg-blue-500 text-white px-2 py-0.5 rounded text-xs mt-1"
-        onClick={() => append({id: crypto.randomUUID(), value: "" })}
+        onClick={() => { append({id: crypto.randomUUID(), value: "" }); }}
       >
         Add Bullet
       </button>
