@@ -17,9 +17,15 @@ function App() {
   // Initialize form data w/ default values
   const [formData, setFormData] = useState<ResumeFormValues>({...DefaultResumeValues});
 
+  // Counter to force re-render of PDFViewer
+  // So deleting items from resume not does crash the app 
+  // See: https://github.com/diegomura/react-pdf/issues/3153
+  const [counter, setCounter] = useState(0);
+
   // Handler to recieve data from Information component
   const handleFormData = (data: ResumeFormValues) => {
     setFormData(data);
+    setCounter((prev) => prev + 1); // Increment counter to force re-render
   };
 
   return (
@@ -29,7 +35,7 @@ function App() {
       <Information onSubmit={handleFormData}/>
     </div>
     {/* Right: Resume Preview */}
-    <PDFViewer className="w-full h-screen">
+    <PDFViewer key={counter} className="w-full h-screen">
       <Resume data={formData}/>
     </PDFViewer>
   </div>
