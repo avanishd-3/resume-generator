@@ -13,5 +13,5 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       },
     },
-  base: '/<resume-generator>/', // GitHub Pages base URL (repo name)
+  base: '/resume-generator/', // GitHub Pages base URL (repo name)
 })
