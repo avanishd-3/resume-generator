@@ -251,16 +251,16 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                   <div key={item.id} className="border-b pb-4 mb-4">
                     <div className="flex justify-between items-center mb-2">
                       {fields.length > 1 && (
-                        <button
-                          type="button"
-                          className="text-red-500 text-xs"
-                          onClick={() => remove(idx)}
-                          disabled={idx === 0}
-                          title={idx === 0 ? "Cannot remove the first degree" : "Remove"}
-                        >
-                          Remove
-                        </button>
-                      )}
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-500 text-xs h-8 px-2"
+                        onClick={() => remove(idx)}
+                        disabled={idx === 0}
+                        title={idx === 0 ? "Cannot remove the first degree" : "Remove"}
+                      >Remove</Button>
+                    )}
                     </div>
                     <FormField
                       control={form.control}
@@ -335,16 +335,16 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-semibold">Job {jobIdx + 1}</span>
                       {jobFields.length > 1 && (
-                        <button
-                          type="button"
-                          className="text-red-500 text-xs"
-                          onClick={() => jobRemove(jobIdx)}
-                          disabled={jobIdx === 0}
-                          title={jobIdx === 0 ? "Cannot remove the first job" : "Remove"}
-                        >
-                          Remove
-                        </button>
-                      )}
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-500 text-xs h-8 px-2"
+                        onClick={() => jobRemove(jobIdx)}
+                        disabled={jobIdx === 0}
+                        title={jobIdx === 0 ? "Cannot remove the first degree" : "Remove"}
+                      >Remove</Button>
+                    )}
                     </div>
                     <FormField
                       control={form.control}
@@ -463,16 +463,14 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                   <div key={project.id} className="border-b pb-4 mb-4">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-semibold">Project {projIdx + 1}</span>
-                      {projectFields.length >= 1 && (
-                        <button
-                          type="button"
-                          className="text-red-500 text-xs"
-                          onClick={() => projectRemove(projIdx)}
-                          // Projects are optional, so allow removing the last one
-                        >
-                          Remove
-                        </button>
-                      )}
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-500 text-xs h-8 px-2"
+                        onClick={() => projectRemove(projIdx)}
+                        // Projects are optional, so allow removing the last one
+                      >Remove</Button>
                     </div>
                     <FormField
                       control={form.control}
@@ -581,14 +579,13 @@ function JobDescriptionFields({ nestIndex, control }: JobDescriptionFieldsProps)
             )}
           />
           {fields.length > 1 && (
-            <button
+            <Button
               type="button"
-              className="text-red-500 text-xs"
+              variant="ghost"
+              size="sm"
+              className="text-red-500 text-xs h-8 px-2"
               onClick={() => remove(descIdx)}
-              title="Remove bullet"
-            >
-              Remove
-            </button>
+            >Remove</Button>
           )}
         </div>
       ))}
@@ -632,14 +629,13 @@ function ProjectDescriptionFields({ nestIndex, control }: ProjectDescriptionFiel
             )}
           />
           {fields.length > 1 && (
-            <button
+            <Button
               type="button"
-              className="text-red-500 text-xs"
+              variant="ghost"
+              size="sm"
+              className="text-red-500 text-xs h-8 px-2"
               onClick={() => remove(descIdx)}
-              title="Remove bullet"
-            >
-              Remove
-            </button>
+            >Remove</Button>
           )}
         </div>
       ))}
