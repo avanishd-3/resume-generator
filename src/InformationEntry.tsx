@@ -47,6 +47,7 @@ const formSchema = z.object({
             !val || /^(https?:\/\/)?(www\.)?github\.com\/.*$/.test(val),
           'This is not a valid GitHub URL'
          ).optional().or(z.literal("")), // Allow user to not provide a GitHub URL
+
   // Education details
   degrees: z.array(
     z.object({
@@ -70,6 +71,7 @@ const formSchema = z.object({
     })
   ).min(1, { message: "At least one job is required" }),
 
+  // Projects details
   projects: z.array(
     z.object({
       id: z.string().uuid().min(1, { message: "ID is required" }),
@@ -79,6 +81,11 @@ const formSchema = z.object({
       description: z.array(z.object({ id: z.string().uuid().min(1, "ID is required"), value: z.string().min(1, { message: "Bullet point is required" }) })).min(1, { message: "Description is required" }),
       })
     ).optional(),
+
+  // Skills details
+  languages: z.string().optional(),
+  frameworks: z.string().optional(),
+  software: z.string().optional(),
 });
 
 // So we can use the form values in other components
@@ -115,6 +122,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
     education: false,
     work: false,
     projects: false,
+    skills: false,
   });
 
   const {fields: projectFields, append: projectAppend, remove: projectRemove} = useFieldArray({
@@ -542,6 +550,64 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                 >
                   Add Project
                 </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Skills Section */}
+          <div>
+            <button
+              type="button"
+              onClick={() => { toggleSection("skills"); }}
+              className="w-full flex items-center justify-between bg-white dark:bg-slate-900 rounded px-4 py-2 font-medium text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2">
+              Skills (optional)
+              <span>{openSections.skills ? "▲" : "▼"}</span>
+            </button>
+            <div
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                openSections.skills ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              <div className="py-2 space-y-4">
+                <FormField
+                  control={form.control}
+                  name="languages"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Languages</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Languages" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="frameworks"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Frameworks/Tools</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Frameworks/Tools" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="software"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Software</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Software" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
           </div>

@@ -113,6 +113,12 @@ const resumeStyle = StyleSheet.create({
     fontWeight: '350',
   },
 
+  /* Skills section */
+  skillItem: {
+    fontSize: 11,
+    marginBottom: -2, // Keep skills close to each other
+  },
+
   /* Default text styling */
   defaultText: {
     fontSize: 12,
@@ -202,6 +208,31 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
 
       {/* Projects section */}
       {projectsSection(data)}
+
+      {/* Skills section*/}
+      {/* Only display if at least one skill category is present */}
+      {data.languages && data.languages.length > 0 || data.frameworks && data.frameworks.length > 0 || 
+       data.software && data.software.length > 0 ? (
+        // Bold only skill category (not items)
+        <View style={resumeStyle.section}>
+          <Text style={resumeStyle.sectionHeading}>Skills</Text>
+          {data.languages && data.languages.length > 0 && (
+            <Text style={resumeStyle.skillItem}>
+              <Text style={{ fontWeight: '600' }}>Languages:</Text> {data.languages}
+            </Text>
+            )}
+          {data.frameworks && data.frameworks.length > 0 && (
+            <Text style={resumeStyle.skillItem}>
+              <Text style={{ fontWeight: '600' }}>Frameworks/Tools:</Text> {data.frameworks}
+            </Text>
+          )}
+          {data.software && data.software.length > 0 && (
+            <Text style={resumeStyle.skillItem}>
+              <Text style={{ fontWeight: '600' }}>Software:</Text> {data.software}
+            </Text>
+          )}
+        </View>
+      ) : null}
     </Page>
   </Document>
 );

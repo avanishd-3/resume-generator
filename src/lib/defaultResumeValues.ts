@@ -1,11 +1,11 @@
 export const DefaultResumeValues = {
     name: "John Doe",
-      phone_number: "123-456-7809",
-      email: "john_doe@gmail.com",
-      address: "Los Angeles, CA",
-      linkedIn: "https://www.linkedin.com/",
-      gitHub: "https://www.github.com/",
-      degrees: [
+    phone_number: "123-456-7809",
+    email: "john_doe@gmail.com",
+    address: "Los Angeles, CA",
+    linkedIn: "https://www.linkedin.com/",
+    gitHub: "https://www.github.com/",
+    degrees: [
       {
         id: crypto.randomUUID(),
         degree: "B.S. in Computer Science",
@@ -40,4 +40,7 @@ export const DefaultResumeValues = {
         ],
       },
     ],
+    languages: "Javascript, Typescript, Python",
+    frameworks: "React, Zod, Flask",
+    software: "Figma, Git, Docker, Vite",
 }
