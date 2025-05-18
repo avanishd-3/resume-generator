@@ -144,6 +144,7 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
           <Link style={resumeStyle.contactLink} src={data.linkedIn}>
             LinkedIn
            </Link>
+          {/* Only display if GitHub link is present */}
           {data.gitHub && data.gitHub.length > 0 && (
             <>
               <Text> | </Text>
