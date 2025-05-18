@@ -138,10 +138,14 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
           <Link style={resumeStyle.contactLink} src={data.linkedIn}>
             LinkedIn
            </Link>
-          <Text> | </Text>
-          <Link style={resumeStyle.contactLink} src={data.gitHub}>
-            GitHub
-           </Link>
+          {data.gitHub && data.gitHub.length > 0 && (
+            <>
+              <Text> | </Text>
+              <Link style={resumeStyle.contactLink} src={data.gitHub}>
+                GitHub
+              </Link>
+            </> 
+          )}
         </View>
       </View>
 

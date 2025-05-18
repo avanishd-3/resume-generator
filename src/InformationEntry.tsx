@@ -41,13 +41,12 @@ const formSchema = z.object({
       'This is not a valid LinkedIn URL'
     ),
   gitHub: z.string()
-          .min(1, { message: "GitHub URL is required" })
           .startsWith("https://", { message: "GitHub URL must start with https://" })
           .refine(
           (val) =>
             !val || /^(https?:\/\/)?(www\.)?github\.com\/.*$/.test(val),
           'This is not a valid GitHub URL'
-        ),
+         ).optional().or(z.literal("")), // Allow user to not provide a GitHub URL
   // Education details
   degrees: z.array(
     z.object({
@@ -224,7 +223,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                   name="gitHub"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>GitHub</FormLabel>
+                      <FormLabel>GitHub (optional)</FormLabel>
                       <FormControl>
                         <Input placeholder="GitHub" {...field} />
                       </FormControl>
