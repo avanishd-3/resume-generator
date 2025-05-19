@@ -260,7 +260,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
               <span>{openSections.education ? "▲" : "▼"}</span>
             </button>
             <div
-              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              className={`overflow-y-auto transition-all duration-300 ease-in-out ${
                 openSections.education ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
@@ -270,7 +270,6 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                     <div className="flex justify-between items-center mb-2">
                       {fields.length > 1 && (
                       <Button
-                        type="button"
                         variant="ghost"
                         size="sm"
                         className="text-red-500 text-xs h-8 px-2"
@@ -321,13 +320,13 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                     />
                   </div>
                 ))}
-                <button
-                  type="button"
+                <Button
+                  size="sm"
                   className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
                   onClick={() => { append({id: crypto.randomUUID(), degree: "", institution: "", gradDate: "" }); }}
                 >
                   Add Degree
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -354,7 +353,6 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                       <span className="font-semibold">Job {jobIdx + 1}</span>
                       {jobFields.length > 1 && (
                       <Button
-                        type="button"
                         variant="ghost"
                         size="sm"
                         className="text-red-500 text-xs h-8 px-2"
@@ -440,8 +438,8 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                     </div>
                   </div>
                 ))}
-                <button
-                  type="button"
+                <Button
+                  size="sm"
                   className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
                   onClick={() =>
                     { jobAppend({
@@ -456,7 +454,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                   }
                 >
                   Add Job
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -482,7 +480,6 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-semibold">Project {projIdx + 1}</span>
                       <Button
-                        type="button"
                         variant="ghost"
                         size="sm"
                         className="text-red-500 text-xs h-8 px-2"
@@ -541,8 +538,8 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                     </div>
                   </div>
                 ))}
-                <button
-                  type="button"
+                <Button
+                  size="sm"
                   className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
                   onClick={() =>
                     { projectAppend({
@@ -555,7 +552,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                   }
                 >
                   Add Project
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -656,7 +653,6 @@ function JobDescriptionFields({ nestIndex, control }: JobDescriptionFieldsProps)
           />
           {fields.length > 1 && (
             <Button
-              type="button"
               variant="ghost"
               size="sm"
               className="text-red-500 text-xs h-8 px-2"
@@ -665,13 +661,13 @@ function JobDescriptionFields({ nestIndex, control }: JobDescriptionFieldsProps)
           )}
         </div>
       ))}
-      <button
-        type="button"
+      <Button
+        size="xs"
         className="bg-blue-500 text-white px-2 py-0.5 rounded text-xs mt-1"
         onClick={() => { append({id: crypto.randomUUID(), value: "" }); }}
       >
         Add Bullet
-      </button>
+      </Button>
     </>
   );
 }
@@ -706,7 +702,6 @@ function ProjectDescriptionFields({ nestIndex, control }: ProjectDescriptionFiel
           />
           {fields.length > 1 && (
             <Button
-              type="button"
               variant="ghost"
               size="sm"
               className="text-red-500 text-xs h-8 px-2"
@@ -715,13 +710,13 @@ function ProjectDescriptionFields({ nestIndex, control }: ProjectDescriptionFiel
           )}
         </div>
       ))}
-      <button
-        type="button"
+      <Button
+        size="xs"
         className="bg-blue-500 text-white px-2 py-0.5 rounded text-xs mt-1"
         onClick={() => { append({id: crypto.randomUUID(), value: "" }); }}
       >
         Add Bullet
-      </button>
+      </Button>
     </>
   );
 } 
