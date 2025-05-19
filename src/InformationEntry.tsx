@@ -3,14 +3,17 @@
 
 // So using things like name={`degrees.${idx}.degree`} is allowed
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-"use client"
 
+"use client" // No server stuff done here
+
+// Form validation and submission
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm} from "react-hook-form";
 import { useFieldArray} from "react-hook-form";
 import type { Control} from "react-hook-form";
 
+// UI components
 import {
   Form,
   FormControl,
@@ -21,6 +24,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+
+// Variables
 import { useState } from "react";
 
 // Import default values for the form
@@ -642,7 +648,7 @@ function JobDescriptionFields({ nestIndex, control }: JobDescriptionFieldsProps)
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormControl>
-                  <Input placeholder="Bullet point" {...field} />
+                  <Textarea placeholder="Bullet point" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -692,7 +698,7 @@ function ProjectDescriptionFields({ nestIndex, control }: ProjectDescriptionFiel
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormControl>
-                  <Input placeholder="Bullet point" {...field} />
+                  <Textarea placeholder="Bullet point" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
