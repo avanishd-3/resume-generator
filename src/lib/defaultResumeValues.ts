@@ -40,7 +40,9 @@ export const DefaultResumeValues = {
         ],
       },
     ],
-    languages: "Javascript, Typescript, Python",
-    frameworks: "React, Zod, Flask",
-    software: "Figma, Git, Docker, Vite",
+    skills: [
+      {id: crypto.randomUUID(), category: "Languages", value: "Javascript, Typescript, Python"},
+      {id: crypto.randomUUID(), category: "Frameworks/Tools", value: "React, Zod, Flask"},
+      {id: crypto.randomUUID(), category: "Software", value: "Figma, Git, Docker, Vite"},
+    ]
 }

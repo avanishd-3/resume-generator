@@ -26,7 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-// Variables
+// General React stuff
 import { useState } from "react";
 
 // Import default values for the form
@@ -89,9 +89,13 @@ const formSchema = z.object({
     ).optional(),
 
   // Skills details
-  languages: z.string().optional(),
-  frameworks: z.string().optional(),
-  software: z.string().optional(),
+  skills: z.array(
+    z.object({
+      id: z.string().uuid().min(1, { message: "ID is required" }),
+      category: z.string().min(1, { message: "Category name is required" }),
+      value: z.string().optional(),
+    })
+  ).optional(),
 });
 
 // So we can use the form values in other components
@@ -122,6 +126,18 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
     name: "jobs",
   });
 
+  // Allow multiple projects
+  const {fields: projectFields, append: projectAppend, remove: projectRemove} = useFieldArray({
+    control: form.control,
+    name: "projects",
+  });
+
+  // Allow multiple skill categories
+  const {fields: skillFields, append: skillAppend, remove: skillRemove} = useFieldArray({
+    control: form.control,
+    name: "skills",
+  });
+
   // Track expansion state of sections
   const [openSections, setOpenSections] = useState({
     personal: true,
@@ -130,13 +146,6 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
     projects: false,
     skills: false,
   });
-
-  const {fields: projectFields, append: projectAppend, remove: projectRemove} = useFieldArray({
-    control: form.control,
-    name: "projects",
-  });
-
- 
 
   // Toggle expansion
   function toggleSection(section: keyof typeof openSections) {
@@ -567,51 +576,69 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
               <span>{openSections.skills ? "▲" : "▼"}</span>
             </button>
             <div
-              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              className={`overflow-y-auto transition-all duration-300 ease-in-out ${
                 openSections.skills ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="py-2 space-y-4">
-                <FormField
-                  control={form.control}
-                  name="languages"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Languages</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Languages" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="frameworks"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Frameworks/Tools</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Frameworks/Tools" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="software"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Software</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Software" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+
+            <div className="py-2 space-y-6">
+              {skillFields.map((skill, skillIdx) => (
+                <div key={skill.id} className="border-b pb-4 mb-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <FormField
+                      control={form.control}
+                      name={`skills.${skillIdx}.category`}
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormControl>
+                            <Input
+                             className="font-semibold"
+                             style={{ fontSize: "1rem" }}
+                             placeholder={skill.category || "Enter Category"} {...field}/>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    {/* Skills are optional, so allow removing the last one */}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-500 text-xs h-8 px-2"
+                      onClick={() => { skillRemove(skillIdx); }}
+                    >Remove</Button>
+                  
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name={`skills.${skillIdx}.value`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Skills (comma separated)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g. JavaScript, React, Node.js" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              ))}
+              <Button
+                className="bg-blue-500 text-white px-3 py-1 rounded text-xs"
+                onClick={() =>
+                  { skillAppend({
+                    id: crypto.randomUUID(),
+                    category: "",
+                    value: "",
+                  }); }
+                }
+              >
+                Add Skill Category
+              </Button>
+            </div>
+            
             </div>
           </div>
 
@@ -719,7 +746,7 @@ function ProjectDescriptionFields({ nestIndex, control }: ProjectDescriptionFiel
       </Button>
     </>
   );
-} 
+}
 
 
 export default Information;

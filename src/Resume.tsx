@@ -212,26 +212,15 @@ const Resume = ({ data }: { data: ResumeFormValues }) => (
 
       {/* Skills section*/}
       {/* Only display if at least one skill category is present */}
-      {data.languages && data.languages.length > 0 || data.frameworks && data.frameworks.length > 0 || 
-       data.software && data.software.length > 0 ? (
-        // Bold only skill category (not items)
+      {data.skills && data.skills.length > 0 ? (
         <View style={resumeStyle.section}>
           <Text style={resumeStyle.sectionHeading}>Skills</Text>
-          {data.languages && data.languages.length > 0 && (
-            <Text style={resumeStyle.skillItem}>
-              <Text style={{ fontWeight: '600' }}>Languages:</Text> {data.languages}
+          {/* Map through skills and display them */}
+          {data.skills.map((skill) => (
+            <Text key={skill.id} style={resumeStyle.skillItem}>
+              <Text style={{ fontWeight: '600' }}>{skill.category}:</Text> {skill.value ?? ""}
             </Text>
-            )}
-          {data.frameworks && data.frameworks.length > 0 && (
-            <Text style={resumeStyle.skillItem}>
-              <Text style={{ fontWeight: '600' }}>Frameworks/Tools:</Text> {data.frameworks}
-            </Text>
-          )}
-          {data.software && data.software.length > 0 && (
-            <Text style={resumeStyle.skillItem}>
-              <Text style={{ fontWeight: '600' }}>Software:</Text> {data.software}
-            </Text>
-          )}
+          ))}
         </View>
       ) : null}
     </Page>
