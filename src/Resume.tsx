@@ -38,12 +38,12 @@ const resumeStyle = StyleSheet.create({
     color: '#000', // Black text color
   },
   contactItem: { // No link
-    textDecoration: 'none', // Only links shoudl be underlined
+    textDecoration: 'none', // Only links should be underlined
     color: '#000', // Black text color
     marginHorizontal: 1, // Space between items
   },
   contactLink: { // Link (LinkedIn, Github, etc.)
-    textDecoration: 'underline', // Only links shoudl be underlined
+    textDecoration: 'underline', // Only links should be underlined
     color: '#0000FF', // Default link color
   },
 
