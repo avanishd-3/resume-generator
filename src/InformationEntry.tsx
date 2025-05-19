@@ -642,7 +642,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
             </div>
           </div>
 
-          <Button type="submit" className="w-full">Submit</Button>
+          <Button type="submit" className="w-full cursor-pointer">Submit</Button>
         </form>
       </Form>
     </div>
