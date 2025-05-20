@@ -81,7 +81,7 @@ const formSchema = z.object({
   projects: z.array(
     z.object({
       id: z.string().uuid().min(1, { message: "ID is required" }),
-      title: z.string().min(1, { message: "Project title is required" }),
+      title: z.string().min(1, { message: "Project name is required" }),
       startDate: z.string().min(1, { message: "Start date is required" }),
       endDate: z.string().min(1, { message: "End date is required" }),
       description: z.array(z.object({ id: z.string().uuid().min(1, "ID is required"), value: z.string().min(1, { message: "Bullet point is required" }) })).min(1, { message: "Description is required" }),
@@ -511,7 +511,21 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                 {projectFields.map((project, projIdx) => (
                   <div key={project.id} className="border-b pb-4 mb-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-semibold">Project {projIdx + 1}</span>
+                      <FormField
+                      control={form.control}
+                      name={`projects.${projIdx}.title`}
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormControl>
+                            <Input
+                             className="font-semibold hover:border-ring transition 150" // Hover border makes it more obvious project name can be changed
+                             style={{ fontSize: "1rem" }}
+                             placeholder={project.title || "Enter Project Name"} {...field}/>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                       <Button
                         variant="ghost"
                         size="sm"
@@ -520,19 +534,6 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                         // Projects are optional, so allow removing the last one
                       >Remove</Button>
                     </div>
-                    <FormField
-                      control={form.control}
-                      name={`projects.${projIdx}.title`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Project Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Project Name" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
 
                     <div className="flex gap-4 mt-3">
                       <FormField
