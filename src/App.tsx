@@ -31,7 +31,7 @@ function App() {
   return (
   <div className="flex items-start justify-start min-h-svh dark:bg-slate-950 bg-slate-100 p-8 gap-8">
     {/* Left: Form */}
-    <div className="w-[350px]">
+    <div className="w-[40rem]">
       <Information onSubmit={handleFormData}/>
     </div>
     {/* Right: Resume Preview */}

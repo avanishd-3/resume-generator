@@ -159,14 +159,14 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
     // Hide scrollbar until user scrolls
     <div className="flex items-start justify-start min-h-svh overflow-y-auto dark:bg-slate-950 bg-slate-100 p-8">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 w-[350px]">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 w-[40rem]">
           {/* Personal Details Section */}
           <div>
             <button
               type="button"
               onClick={() => { toggleSection("personal"); }}
-              className="w-full flex items-center justify-between bg-white dark:bg-slate-900 rounded px-4 py-2 font-medium text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2">
-              Personal Details
+              className="w-full flex items-center justify-between text-xl bg-white dark:bg-slate-900 rounded px-4 py-2  text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2">
+              Personal Information
               <span>{openSections.personal ? "▲" : "▼"}</span>
             </button>
             <div
@@ -174,86 +174,95 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                 openSections.personal ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
-              <div className="py-2 space-y-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="phone_number"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Phone Number" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Email" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Address</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Address" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="linkedIn"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>LinkedIn</FormLabel>
-                      <FormControl>
-                        <Input placeholder="LinkedIn" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+              <div className="py-2 space-y-6">
+                {/* Each flex div is its own row */}
+                <div className="flex gap-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-light">Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                      control={form.control}
+                      name="phone_number"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-light">Phone Number</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Phone Number" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                  />
+                </div>
+
+                <div className="flex gap-4">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-light">Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Email" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                      control={form.control}
+                      name="address"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-light">Address</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Address" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                  />
+                </div>
+
+                <div className="flex gap-4">
+                  <FormField
+                    control={form.control}
+                    name="linkedIn"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-light">LinkedIn</FormLabel>
+                        <FormControl>
+                          <Input placeholder="LinkedIn" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="gitHub"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>GitHub (optional)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="GitHub" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="gitHub"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-light">GitHub (optional)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="GitHub" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -263,7 +272,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
             <button
               type="button"
               onClick={() => { toggleSection("education"); }}
-              className="w-full flex items-center justify-between bg-white dark:bg-slate-900 rounded px-4 py-2 font-medium text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
+              className="w-full flex items-center justify-between text-xl bg-white dark:bg-slate-900 rounded px-4 py-2  text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
             >
               Education
               <span>{openSections.education ? "▲" : "▼"}</span>
@@ -288,45 +297,52 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                       >Remove</Button>
                     )}
                     </div>
-                    <FormField
+
+                    {/* Each flex div is its own row */}
+                    <div className="flex gap-4">
+                      <FormField
                       control={form.control}
                       name={`degrees.${idx}.degree`}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Degree</FormLabel>
+                          <FormLabel className="font-light">Degree</FormLabel>
                           <FormControl>
                             <Input placeholder="Degree" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name={`degrees.${idx}.institution`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Institution</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Institution" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name={`degrees.${idx}.gradDate`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Graduation Date</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Graduation Date" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                      />
+                      <FormField
+                        control={form.control}
+                        name={`degrees.${idx}.institution`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="font-light">Institution</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Institution" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="flex gap-4 mt-6"> {/* Margin top of 6 to be consistent with other sections */}
+                        <FormField
+                        control={form.control}
+                        name={`degrees.${idx}.gradDate`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="font-light">Graduation Date</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Graduation Date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                        />
+                    </div>
                   </div>
                 ))}
                 <Button
@@ -345,7 +361,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
             <button
               type="button"
               onClick={() => { toggleSection("work"); }}
-              className="w-full flex items-center justify-between bg-white dark:bg-slate-900 rounded px-4 py-2 font-medium text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
+              className="w-full flex items-center justify-between text-xl bg-white dark:bg-slate-900 rounded px-4 py-2  text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
             >
               Work Experience
               <span>{openSections.work ? "▲" : "▼"}</span>
@@ -359,7 +375,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                 {jobFields.map((job, jobIdx) => (
                   <div key={job.id} className="border-b pb-4 mb-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-semibold">Job {jobIdx + 1}</span>
+                      <span className="font-semibold mb-2">Job {jobIdx + 1}</span>
                       {jobFields.length > 1 && (
                       <Button
                         variant="ghost"
@@ -371,46 +387,54 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                       >Remove</Button>
                     )}
                     </div>
-                    <FormField
-                      control={form.control}
-                      name={`jobs.${jobIdx}.company`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Company</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Company" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name={`jobs.${jobIdx}.position`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Position</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Position" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name={`jobs.${jobIdx}.location`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Location</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Location" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <div className="flex gap-2">
+
+                    {/* Each flex div is its own row */}
+                    <div className="flex gap-4">
+                      <FormField
+                        control={form.control}
+                        name={`jobs.${jobIdx}.company`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Company</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Company" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name={`jobs.${jobIdx}.position`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Position</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Position" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="flex gap-4 mt-4">
+                      <FormField
+                        control={form.control}
+                        name={`jobs.${jobIdx}.location`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Location</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Location" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    
+                    <div className="flex gap-4 mt-4">
                       <FormField
                         control={form.control}
                         name={`jobs.${jobIdx}.startDate`}
@@ -438,7 +462,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                         )}
                       />
                     </div>
-                    <div className="mt-2">
+                    <div className="mt-4">
                       <span className="font-semibold">Description</span>
                       <JobDescriptionFields
                         nestIndex={jobIdx}
@@ -473,7 +497,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
             <button
               type="button"
               onClick={() => { toggleSection("projects"); }}
-              className="w-full flex items-center justify-between bg-white dark:bg-slate-900 rounded px-4 py-2 font-medium text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
+              className="w-full flex items-center justify-between text-xl bg-white dark:bg-slate-900 rounded px-4 py-2  text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
             >
               Projects
               <span>{openSections.projects ? "▲" : "▼"}</span>
@@ -510,7 +534,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                       )}
                     />
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-4 mt-3">
                       <FormField
                         control={form.control}
                         name={`projects.${projIdx}.startDate`}
@@ -538,7 +562,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                         )}
                       />
                     </div>
-                    <div className="mt-2">
+                    <div className="mt-4">
                       <span className="font-semibold">Description</span>
                       <ProjectDescriptionFields
                         nestIndex={projIdx}
@@ -571,7 +595,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
             <button
               type="button"
               onClick={() => { toggleSection("skills"); }}
-              className="w-full flex items-center justify-between bg-white dark:bg-slate-900 rounded px-4 py-2 font-medium text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2">
+              className="w-full flex items-center justify-between text-xl bg-white dark:bg-slate-900 rounded px-4 py-2  text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2">
               Skills (optional)
               <span>{openSections.skills ? "▲" : "▼"}</span>
             </button>
