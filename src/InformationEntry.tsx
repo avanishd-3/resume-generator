@@ -616,7 +616,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
                         <FormItem className="flex-1">
                           <FormControl>
                             <Input
-                             className="font-semibold hover:border-ring transition 200" // Hover border makes it more obvious default categories can be changed
+                             className="font-semibold hover:border-ring transition 150" // Hover border makes it more obvious default categories can be changed
                              style={{ fontSize: "1rem" }}
                              placeholder={skill.category || "Enter Category"} {...field}/>
                           </FormControl>
