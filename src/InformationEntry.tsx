@@ -517,7 +517,7 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
             >
               <span className="text-slate-900 dark:text-slate-100 gap-3 flex items-center">
                   <GitHubIcon />  
-                <span>Projects</span>
+                <span>Projects (optional)</span>
               </span>
               <span>{openSections.projects ? "▲" : "▼"}</span>
             </button>
