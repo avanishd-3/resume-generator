@@ -26,6 +26,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
+// Icons
+import PersonIcon from '@mui/icons-material/Person'; // For personal info
+import SchoolIcon from '@mui/icons-material/School'; // For education
+import WorkIcon from '@mui/icons-material/Work'; // For work experience
+import GitHubIcon from '@mui/icons-material/GitHub'; // For projects
+import TerminalIcon from '@mui/icons-material/Terminal'; // For skills
+
 // General React stuff
 import { useState } from "react";
 
@@ -166,7 +173,10 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
               type="button"
               onClick={() => { toggleSection("personal"); }}
               className="w-full flex items-center justify-between text-xl bg-white dark:bg-slate-900 rounded px-4 py-2  text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2">
-              Personal Information
+              <span className="text-slate-900 dark:text-slate-100 gap-3 flex items-center">
+                  <PersonIcon />  
+                <span>Personal Information</span>
+              </span>
               <span>{openSections.personal ? "▲" : "▼"}</span>
             </button>
             <div
@@ -274,7 +284,10 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
               onClick={() => { toggleSection("education"); }}
               className="w-full flex items-center justify-between text-xl bg-white dark:bg-slate-900 rounded px-4 py-2  text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
             >
-              Education
+              <span className="text-slate-900 dark:text-slate-100 gap-3 flex items-center">
+                  <SchoolIcon />  
+                <span>Education</span>
+              </span>
               <span>{openSections.education ? "▲" : "▼"}</span>
             </button>
             <div
@@ -363,7 +376,10 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
               onClick={() => { toggleSection("work"); }}
               className="w-full flex items-center justify-between text-xl bg-white dark:bg-slate-900 rounded px-4 py-2  text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
             >
-              Work Experience
+              <span className="text-slate-900 dark:text-slate-100 gap-3 flex items-center">
+                  <WorkIcon />  
+                <span>Work Experience</span>
+              </span>
               <span>{openSections.work ? "▲" : "▼"}</span>
             </button>
             <div
@@ -499,7 +515,10 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
               onClick={() => { toggleSection("projects"); }}
               className="w-full flex items-center justify-between text-xl bg-white dark:bg-slate-900 rounded px-4 py-2  text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2"
             >
-              Projects
+              <span className="text-slate-900 dark:text-slate-100 gap-3 flex items-center">
+                  <GitHubIcon />  
+                <span>Projects</span>
+              </span>
               <span>{openSections.projects ? "▲" : "▼"}</span>
             </button>
             <div
@@ -597,7 +616,10 @@ function Information({ onSubmit }: { onSubmit: (data: ResumeFormValues) => void 
               type="button"
               onClick={() => { toggleSection("skills"); }}
               className="w-full flex items-center justify-between text-xl bg-white dark:bg-slate-900 rounded px-4 py-2  text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition mb-2">
-              Skills (optional)
+              <span className="text-slate-900 dark:text-slate-100 gap-3 flex items-center">
+                  <TerminalIcon/>  
+                <span>Skills (optional)</span>
+              </span>
               <span>{openSections.skills ? "▲" : "▼"}</span>
             </button>
             <div
